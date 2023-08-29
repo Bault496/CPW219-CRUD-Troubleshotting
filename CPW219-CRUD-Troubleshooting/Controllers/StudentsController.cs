@@ -39,26 +39,32 @@ namespace CPW219_CRUD_Troubleshooting.Controllers
             return View(studentCreate);
         }
 
-        public IActionResult Edit(int id)
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
         {
             //get the product by id
-            Student p = StudentDb.GetStudent(context, id);
+            Student studentEdit = StudentDb.GetStudent(context, id);
 
+            if (studentEdit == null)
+            {
+                return NotFound();
+            }
             //show it on web page
-            return View();
+            return View(studentEdit);
         }
 
         [HttpPost]
-        public IActionResult Edit(Student p)
+        public async Task<IActionResult> Edit(Student studentModel)
         {
             if (ModelState.IsValid)
             {
-                StudentDb.Update(context, p);
-                ViewData["Message"] = "Product Updated!";
-                return View(p);
+                StudentDb.Update(context, studentModel);
+                await context.SaveChangesAsync();
+                TempData["Message"] = $"student {studentModel.Name} Updated!";
+                return RedirectToAction("Index");
             }
             //return view with errors
-            return View(p);
+            return View(studentModel);
         }
 
         public IActionResult Delete(int id)
