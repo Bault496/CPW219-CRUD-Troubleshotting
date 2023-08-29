@@ -1,6 +1,7 @@
 ﻿using CPW219_CRUD_Troubleshooting.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.FlowAnalysis;
+using Microsoft.EntityFrameworkCore;
 
 namespace CPW219_CRUD_Troubleshooting.Controllers
 {
@@ -96,6 +97,13 @@ namespace CPW219_CRUD_Troubleshooting.Controllers
           
     
             return RedirectToAction("Index");
+        }
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            Student studentDetails = StudentDb.GetStudent(_context, id);
+
+            return View(studentDetails);
         }
     }
 }
