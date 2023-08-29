@@ -1,5 +1,6 @@
 ﻿using CPW219_CRUD_Troubleshooting.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.FlowAnalysis;
 
 namespace CPW219_CRUD_Troubleshooting.Controllers
 {
@@ -60,27 +61,40 @@ namespace CPW219_CRUD_Troubleshooting.Controllers
             {
                 StudentDb.Update(context, studentModel);
                 await context.SaveChangesAsync();
-                TempData["Message"] = $"student {studentModel.Name} Updated!";
+                TempData["Message"] = $"student {studentModel.Name} was Updated!";
                 return RedirectToAction("Index");
             }
             //return view with errors
             return View(studentModel);
         }
 
+        [HttpGet]
         public IActionResult Delete(int id)
         {
-            Student p = StudentDb.GetStudent(context, id);
-            return View(p);
+            Student studentDelete = StudentDb.GetStudent(context, id);
+
+            if(studentDelete == null)
+            {
+                return NotFound();
+            }
+            return View(studentDelete);
         }
 
         [HttpPost, ActionName("Delete")]
-        public IActionResult DeleteConfirm(int id)
+        public async Task<IActionResult> DeleteConfirm(int id)
         {
             //Get Product from database
-            Student p = StudentDb.GetStudent(context, id);
+            Student studentDelete = StudentDb.GetStudent(context, id);
+            if (studentDelete != null)
+            {
+                StudentDb.Delete(context, studentDelete);
+                await context.SaveChangesAsync();
 
-            StudentDb.Delete(context, p);
-
+                TempData["Message"] = studentDelete.Name + " was deleted.";
+                return RedirectToAction("Index");
+            }
+          
+    
             return RedirectToAction("Index");
         }
     }
