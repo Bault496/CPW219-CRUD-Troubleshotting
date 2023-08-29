@@ -18,23 +18,25 @@ namespace CPW219_CRUD_Troubleshooting.Controllers
             return View(products);
         }
 
+        [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult Create(Student p)
+        public async Task<IActionResult> Create(Student studentCreate)
         {
             if (ModelState.IsValid)
             {
-                StudentDb.Add(p, context);
-                ViewData["Message"] = $"{p.Name} was added!";
+                StudentDb.Add(studentCreate, context);
+                await context.SaveChangesAsync();
+                ViewData["Message"] = $"{studentCreate.Name} was added!";
                 return View();
             }
 
             //Show web page with errors
-            return View(p);
+            return View(studentCreate);
         }
 
         public IActionResult Edit(int id)
