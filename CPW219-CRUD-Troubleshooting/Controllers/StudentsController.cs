@@ -101,7 +101,7 @@ namespace CPW219_CRUD_Troubleshooting.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
-            Student studentDetails = StudentDb.GetStudent(_context, id);
+            Student studentDetails = StudentDb.GetStudent(context, id);
 
             return View(studentDetails);
         }
