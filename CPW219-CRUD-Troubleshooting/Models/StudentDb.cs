@@ -11,8 +11,7 @@
 
         public static List<Student> GetStudents(SchoolContext context)
         {
-            return (from s in context.Students
-                    select s).ToList();
+            return context.Students.ToList();
         }
 
         public static Student GetStudent(SchoolContext context, int id)

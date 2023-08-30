@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CPW219_CRUD_Troubleshooting.Migrations
 {
     [DbContext(typeof(SchoolContext))]
-    [Migration("20230829171745_CRUDTroubleshotting")]
-    partial class CRUDTroubleshotting
+    [Migration("20230830224511_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
